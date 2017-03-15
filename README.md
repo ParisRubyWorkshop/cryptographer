@@ -47,16 +47,16 @@ puts message
 If you're comfortable with creating classes, start with this:
 
 ```ruby
-class Encryptor
-  # Your code here
-end
-
-class Decryptor
-  # Your code here
-end
 
 class EncryptionEngine
-  # Your code here
+  
+  def encrypt(string)
+    # Your code here
+  end
+  
+  def decrypt(string)
+    # Your code here
+  end
 end
 ```
 
