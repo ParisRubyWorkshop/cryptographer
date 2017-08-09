@@ -1,6 +1,7 @@
 class EncryptionEngine
 
   def encrypt(string, key)
+    array_capitals = string.split("").map { |letter| capitalized?(letter) }
     message_splitted = string.downcase.split("")
     message_splitted.map! do |letter|
       if letter.ord + key > "z".ord
@@ -11,8 +12,17 @@ class EncryptionEngine
       new_number = 32 if new_number == 45
       new_number.chr
     end
-    res = message_splitted.join
-    res.split(" ").map {|word| word.capitalize}.join(" ")
+
+    result = []
+    message_splitted.each_with_index do |letter, index|
+      letter.upcase! if array_capitals[index]
+      result << letter
+    end
+    result.join
+  end
+
+  def capitalized?(letter)
+    letter == letter.upcase
   end
 
   def decrypt(string, key)
