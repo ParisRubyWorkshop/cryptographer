@@ -21,12 +21,21 @@ class EncryptionEngine
     result.join
   end
 
-  def capitalized?(letter)
-    letter == letter.upcase
+  def capitalized?(string)
+    string.split("").map { |letter| letter == letter.upcase }
+  end
+
+  def capitalize_array(array)
+    result = []
+    array.each_with_index do |letter, index|
+      letter.upcase! if capitalized?[index]
+      result << letter
+    end
   end
 
   def decrypt(string, key)
     # Your code here
+
     message_splitted = string.split("")
     message_splitted.map! do |letter|
       new_number = letter.ord - key
@@ -34,4 +43,6 @@ class EncryptionEngine
     end
     message_splitted.join
   end
+
+
 end
