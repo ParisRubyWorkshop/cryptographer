@@ -1,48 +1,36 @@
 class EncryptionEngine
 
   def encrypt(string, key)
-    array_capitals = string.split("").map { |letter| capitalized?(letter) }
-    message_splitted = string.downcase.split("")
-    message_splitted.map! do |letter|
-      if letter.ord + key > "z".ord
-        new_number = letter.ord + key - 1 - "z".ord + "a".ord
-      else
-        new_number = letter.ord + key
-      end
-      new_number = 32 if new_number == 45
+    message_splitted = string.split("")
+    result = message_splitted.map do |letter|
+      new_number = letter.ord + key
+      # if rotation of ascii number is greater than (Z|z).ord : -26 (back to (A|a))
+      new_number -= 26 if letter.ord + key > max_AZ(letter)
+      # keep space and punctuation unchanged
+      new_number = letter.ord if /\W+/.match(letter)
       new_number.chr
-    end
-
-    result = []
-    message_splitted.each_with_index do |letter, index|
-      letter.upcase! if array_capitals[index]
-      result << letter
     end
     result.join
   end
 
-  def capitalized?(string)
-    string.split("").map { |letter| letter == letter.upcase }
-  end
-
-  def capitalize_array(array)
-    result = []
-    array.each_with_index do |letter, index|
-      letter.upcase! if capitalized?[index]
-      result << letter
+  # max_AZ refer to "Z".ord if letter is capitalized, "z" if not
+  def max_AZ(letter)
+    if letter.ord >= 65 && letter.ord <= 90
+      return 90
+    else
+      return 122
     end
   end
 
   def decrypt(string, key)
-    # Your code here
-
     message_splitted = string.split("")
-    message_splitted.map! do |letter|
+    result = message_splitted.map do |letter|
       new_number = letter.ord - key
+      new_number += 26 if letter.ord - key < max_AZ(letter) - 26
+      new_number = letter.ord if /\W+/.match(letter)
       new_number.chr
     end
-    message_splitted.join
+    result.join
   end
-
 
 end
