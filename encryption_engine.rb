@@ -1,15 +1,15 @@
 class EncryptionEngine
 
   def encrypt(string, key)
-    message_splitted = string.downcase.split("")
-    en = encryptor(message_splitted, key)
-    final_string_with_capitals(en, string)
+    characters = string.downcase.split("")
+    encrypted_characters = encryptor(characters, key)
+    final_string_with_capitals(encrypted_characters, string)
   end
 
   def decrypt(string, key)
-    message_splitted = string.split("")
-    de = decryptor(message_splitted, key)
-    final_string_with_capitals(de, string)
+    characters = string.downcase.split("")
+    decrypted_characters = decryptor(characters, key)
+    final_string_with_capitals(decrypted_characters, string)
   end
 
   private
@@ -23,7 +23,7 @@ class EncryptionEngine
   end
 
   def encryptor(array, key)
-    array.map! do |letter|
+    array.map do |letter|
       if letter.ord + key > "z".ord
         new_number = letter.ord + key - "z".ord + "a".ord - 1
       else
@@ -35,7 +35,7 @@ class EncryptionEngine
   end
 
   def decryptor(array, key)
-    array.map! do |letter|
+    array.map do |letter|
       if letter.ord - key < "a".ord
         new_number = letter.ord - key + "z".ord - "a".ord + 1
       else
@@ -55,3 +55,7 @@ class EncryptionEngine
     result.join
   end
 end
+
+
+p EncryptionEngine.new.encrypt("This is a mega secret", 13)
+p EncryptionEngine.new.decrypt("Guvf vf n zrtn frperg", 13)
